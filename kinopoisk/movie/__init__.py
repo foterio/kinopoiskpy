@@ -153,7 +153,7 @@ class SeriesSeason(object):
             self.episodes = episodes
 
     def __repr__(self):
-        return '{}: {}'.format(self.year, len(self.episodes))
+        return '{}: {}'.format(self.year, self.episodes)
 
 
 class MovieManager(Manager):

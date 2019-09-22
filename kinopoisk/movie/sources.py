@@ -166,9 +166,12 @@ class MovieSeries(KinopoiskPage):
                 else:
                     normalized_date = raw_date
                 title = tr.find('h1').b.string
+                titleEN = None
+                if tr.find('span', attrs={'class': 'episodesOriginalName'}) :
+                    titleEN = tr.find('span', attrs={'class': 'episodesOriginalName'}).string
                 if title.startswith('Эпизод #'):
                     title = None
-                episodes.append((title, normalized_date))
+                episodes.append((title, titleEN, normalized_date))
 
             if episodes:
                 self.instance.add_series_season(year, episodes)

@@ -77,7 +77,7 @@ class Movie(KinopoiskObject):
             self.trailers.append(trailer)
 
     def add_series_season(self, year, episodes):
-        self.seasons.append(SeriesSeason(year, [SeriesEpisode(title, date) for title, date in episodes]))
+        self.seasons.append(SeriesSeason(year, [SeriesEpisode(title, titleEN, date) for title, titleEN, date in episodes]))
 
 
 @python_2_unicode_compatible
@@ -127,16 +127,21 @@ class Trailer(object):
 class SeriesEpisode(object):
     def set_defaults(self):
         self.title = ''
+        self.titleEN = ''
         self.release_date = None
 
-    def __init__(self, title=None, release_date=None):
+    def __init__(self, title=None, titleEN=None, release_date=None):
         self.set_defaults()
 
         self.title = title
+        self.titleEN = titleEN
         self.release_date = release_date
 
     def __repr__(self):
-        return '{}, {}'.format(self.title if self.title else '???', self.release_date or '-')
+        # return '{}, {}, {}'.format(self.title if self.title else '???', self.titleEN if self.titleEN else '???', self.release_date or '-')
+        # '{"title": {}, "titleEN": {}, "releaseDate": {}}'
+        result = "'title': '{}', 'titleEN': '{}', 'releaseDate': '{}'".format(self.title if self.title else '???', self.titleEN if self.titleEN else '???', self.release_date or '-')
+        return "{"+result+"}"
 
 
 @python_2_unicode_compatible

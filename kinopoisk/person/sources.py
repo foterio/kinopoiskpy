@@ -111,6 +111,8 @@ class PersonMainPage(KinopoiskPage):
         'id': '//link[@rel="canonical"]/@href',
         'name': '//h1[@class="moviename-big"][@itemprop="name"]/text()',
         'name_en': '//span[@itemprop="alternateName"]/text()',
+        'poster': '//div[@class="film-img-box"]/a/img[@itemprop="image"]/@src'
+        # 'poster': '//div[@class="originalPoster"]/img[@itemprop="image"]/@src'
     }
 
     def parse(self):
@@ -137,12 +139,16 @@ class PersonMainPage(KinopoiskPage):
         self.instance.name = self.extract('name', to_str=True)
         self.instance.name_en = self.extract('name_en', to_str=True)
 
+        # poster
+        self.instance.poster = self.extract('poster', to_str=True)
+
         # movies
         from kinopoisk.person import Role
         for element in self.extract('movies'):
             type = [t.get('data-work-type') for t in element.iterancestors()][0]
             self.instance.career.setdefault(type, [])
             self.instance.career[type].append(Role.get_parsed('role_link', element))
+
 
         self.instance.set_source('main_page')
 
